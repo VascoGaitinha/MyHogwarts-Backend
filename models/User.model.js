@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-
+const nowGenerator = require('../utils/nowGenerator')
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
 const userSchema = new Schema(
   {
@@ -11,7 +11,26 @@ const userSchema = new Schema(
       type: String,
       required:true
     }, 
-    name: {type: String, required: true}
+    name: {
+      type: String, 
+      required: true
+    },
+    firstLoggin:{
+      type: Boolean, 
+      default: true
+    },
+    firstJoined:{
+      type: String,
+      default: nowGenerator()
+    },
+    correctAnswers:{
+      type: Number,
+      default: 0
+    },
+    image: {
+      type: String,
+      required: false,
+    },
   }
 );
 
