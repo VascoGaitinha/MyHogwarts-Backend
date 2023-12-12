@@ -2,26 +2,33 @@ const router = require("express").Router();
 const Team = require("../models/Team.model");
 const mongoose = require('mongoose');
 
-router.get('/teams', (req,res)=>{
+router.get('/teams', (req, res) => {
     Team.find()
-    .then((teams)=>{
-        res.status(200).json(teams)
-    })
-    .catch((error) => {
-        console.Console.log(error)
-    })
-})
+        .populate('members')
+        .then((teams) => {
+            res.status(200).json(teams);
+        })
+        .catch((error) => {
+            console.log(error); // Corrected typo here
+            res.status(500).json({ message: 'Internal Server Error' });
+        });
+});
 
-router.get('/teams/:teamId', (req,res)=>{
-    const {teamId} = req.params;
+router.get('/teams/:teamId', (req, res) => {
+    const { teamId } = req.params;
     Team.findById(teamId)
-    .then((team)=>{
-        res.status(200).json(team)
-    })
-    .catch((error) => {
-        console.Console.log(error)
-    })
-})
+        .populate('members')
+        .then((team) => {
+            if (!team) {
+                return res.status(404).json({ message: 'Team not found' });
+            }
+            res.status(200).json(team);
+        })
+        .catch((error) => {
+            console.log(error); // Corrected typo here
+            res.status(500).json({ message: 'Internal Server Error' });
+        });
+});
 
 router.post('/teams', (req,res)=>{
     Team.create(req.body)

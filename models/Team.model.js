@@ -8,10 +8,10 @@ const teamSchema = new Schema(
       required: true
     },
     members:[
-      [{
+      {
         type: Schema.Types.ObjectId,
         ref: "User"
-      }]
+      }
     ],
   }
 );
