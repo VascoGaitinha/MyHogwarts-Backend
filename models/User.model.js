@@ -35,6 +35,10 @@ const userSchema = new Schema(
     team: {
       type: Schema.Types.ObjectId,
       ref: "Team"
+    },
+    totalPoints:{
+      type: Number,
+      default: 0
     }
   }
 );

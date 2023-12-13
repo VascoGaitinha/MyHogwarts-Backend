@@ -1,5 +1,4 @@
 const { Schema, model, SchemaType } = require("mongoose");
-const nowGenerator = require('../utils/nowGenerator')
 
 const teamSchema = new Schema(
   {
@@ -13,6 +12,12 @@ const teamSchema = new Schema(
         ref: "User"
       }
     ],
+    totalPoints:[
+      {
+        type: Number,
+        default: 0
+      }
+    ]
   }
 );
 

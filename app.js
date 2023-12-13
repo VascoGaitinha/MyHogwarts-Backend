@@ -24,6 +24,9 @@ app.use('/api', userRoutes);
 const teamRoutes = require('./routes/team.routes');
 app.use('/api', teamRoutes);
 
+const quizzRoutes = require("./routes/quizz.routes");
+app.use("/api", quizzRoutes);
+
 const authRoutes = require('./routes/auth.routes');
 app.use('/auth', authRoutes);
 
