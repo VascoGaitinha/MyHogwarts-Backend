@@ -42,7 +42,7 @@ router.post('/quizz', (req,res)=>{
 
 router.put('/quizz/:quizzId/adduser', async (req, res) => {
     try {
-      const quizzId = req.params.teamsId;
+      const quizzId = req.params.quizzId;
       const memberId = req.body.memberId
      
       const updatedQuizz = await Quizz.findByIdAndUpdate(
