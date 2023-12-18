@@ -59,43 +59,46 @@ router.post('/signup', async (req, res) => {
 
 
 // POST '/auth/login' - Verifies email and password and returns a JWT
-router.post('/login', (req, res)=>{
-    const {email, password} = req.body; 
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
 
     /* What if email and password were left blank? */
-    if(email === '' || password === ''){
-        res.status(400).json({message: 'Provide email and password.'}); 
+    if (email === '' || password === '') {
+        res.status(400).json({ message: 'Provide email and password.' });
         return;
     }
 
-    User.findOne({email})
-        .then((foundUser)=>{
-            /* What if the user was not found? */
-            if(!foundUser){
-                res.status(400).json({message: 'User not found'});
-                return; 
-            }
+    try {
+        const foundUser = await User.findOne({ email });
 
-            /* What if the password is not correct? */
-            const passwordCorrect = bcrypt.compareSync(password, foundUser.password);
+        /* What if the user was not found? */
+        if (!foundUser) {
+            return res.status(400).json({ message: 'User not found' });
+        }
 
-            if(passwordCorrect){
-                const {_id, email, name} = foundUser; 
+        /* What if the password is not correct? */
+        const passwordCorrect = await bcrypt.compare(password, foundUser.password);
 
-                const payload = {_id, email, name};
+        if (passwordCorrect) {
+            const { _id, email, name } = foundUser;
 
-                const authToken = jwt.sign(
-                    payload, process.env.TOKEN_SECRET, {algorithm: 'HS256', expiresIn: '6h'}
-                )
-                return res.status(200).json({authToken: authToken});
-            }
-            /* What if the password is not correct? */
-            else{
-                return res.status(400).json({message: 'Wrong passwprd'});
-            }
-        })
-        .catch(()=> res.status(500).json({message: 'User not found.'}))
-}); 
+            const payload = { _id, email, name };
+
+            const authToken = jwt.sign(
+                payload, process.env.TOKEN_SECRET, { algorithm: 'HS256', expiresIn: '6h' }
+            );
+            return res.status(200).json({ authToken: authToken });
+        }
+        /* What if the password is not correct? */
+        else {
+            return res.status(400).json({ message: 'Wrong password' });
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
 
 // GET '/auth/verify' - Used to verify JWT 
 router.get('/verify', isAuthenticated, (req,res)=>{
