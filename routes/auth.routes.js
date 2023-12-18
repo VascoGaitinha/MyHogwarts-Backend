@@ -8,6 +8,7 @@ const {isAuthenticated} = require('../middleware/jwt.middleware');
 
 const router = express.Router();
 
+
 const saltRounds = 10; 
 
 // POST '/auth/signup' - Creates a new user in the database
@@ -16,8 +17,8 @@ router.post('/signup', async (req, res) => {
         const { email, password, name, team, image } = req.body;
 
         // Validate required fields
-        if (!email || !password || !name) {
-            return res.status(400).json({ message: "Provide email, password, and name." });
+        if (!email || !password || !name || !team) {
+            return res.status(400).json({ message: "Provide email, password, name and team." });
         }
 
         // Validate email format
@@ -29,7 +30,7 @@ router.post('/signup', async (req, res) => {
         // Validate password format
         const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
         if (!passwordRegex.test(password)) {
-            return res.status(400).json({ message: 'Password must have at least 6 characters and contain 1 lowercase letter, 1 uppercase letter, 1 number' });
+            return res.status(400).json({ message: `Password must have at least 6 characters and contain: \\n 1 lowercase letter, 1 uppercase letter, 1 number` });
         }
 
         // Check if user already exists

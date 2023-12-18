@@ -58,4 +58,17 @@ router.put('/teams/:teamsId/adduser', async (req, res) => {
     }
   });
 
+  router.put('/teams/:teamsId/', async (req, res) => {
+    try {
+      const teamId = req.params.teamsId;
+     
+      const updatedTeam = await Team.findByIdAndUpdate(teamId, req.body);
+  
+      res.json(updatedTeam);
+    } catch (error) {
+      console.error('Error updating team:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
 module.exports = router;
