@@ -12,12 +12,10 @@ const teamSchema = new Schema(
         ref: "User"
       }
     ],
-    totalPoints:[
-      {
+    totalPoints:{
         type: Number,
         default: 0
       }
-    ]
   }
 );
 
