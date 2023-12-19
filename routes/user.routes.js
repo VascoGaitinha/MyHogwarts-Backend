@@ -51,7 +51,7 @@ router.put('/users/:userId/addquizz', async (req, res) => {
  
         const updatedUser = await User.findByIdAndUpdate(
             userId,
-            { $push: { sovledQuizz: quizzId } },
+            { $push: { solvedQuizz: quizzId } },
             { new: true })
         
         if (!updatedUser) {
