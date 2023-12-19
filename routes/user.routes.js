@@ -45,13 +45,11 @@ router.put('/users/:userId', async (req, res) => {
 });
 
 router.put('/users/:userId/addquizz', async (req, res) => {
-
-    const userId = req.params.userId;
-    const quizzId = req.body.quizzId;
-
-    try {
+    try { 
+        const userId = req.params.userId;
+        const quizzId = req.body.quizzId;
  
-        const updatedUser = await Team.findByIdAndUpdate(
+        const updatedUser = await User.findByIdAndUpdate(
             userId,
             { $push: { sovledQuizz: quizzId } },
             { new: true })
