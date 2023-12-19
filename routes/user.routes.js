@@ -18,6 +18,7 @@ router.get('/users/:userId', (req,res)=>{
 
     User.findById(userId)
     .populate("team")
+    .populate("solvedQuizz")
     .then((user)=>{
         res.status(200).json(user);
     })
