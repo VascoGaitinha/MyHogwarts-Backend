@@ -25,8 +25,8 @@ const userSchema = new Schema(
     },
     solvedQuizz: [
         {
-            type: String,
-            required: true,
+          type: Schema.Types.ObjectId,
+          ref: "Quizz"
         },
       ],
     image: {
